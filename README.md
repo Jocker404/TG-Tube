@@ -14,3 +14,5 @@ Bot Telegram Server para descargar música y videos de YouTube además de files 
 3º Los archivos descargados se borran de la carpeta donde se ejecuta el server del bot.
 4º Los registros de Errores se guardan en un logger.dat
 5º Los registros de usuarios que usan el bot se guandan en la database log_telegram_download.sqlite
+
+# Licencia AGPL
