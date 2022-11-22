@@ -22,13 +22,13 @@ Ademas con unas pequeñas modificaciones se puede ajustar para almacenar los arc
 4º Los registros de Errores se guardan en un logger.dat
 5º Los registros de usuarios que usan el bot se guandan en la database log_telegram_download.sqlite
 6º Los comandos de usos son: 
-	{
-	 /start : iniciar el bot
-	 /down : download videos de YouTube ex: /down https://youtu.be/Q-ezaxiKe-Y
-	 /platf : download videos de Vimeo ex: /platf https://vimeo.com/404133941
-	 /downmusic : download musica de YouTube ex: /downmusic https://youtu.be/Q-ezaxiKe-Y
-	 /downgithub : download los paketes de GitHub ex: /downgithub https://github.com/cloudfellows/stuxnet-worm
-	 /help : info
-	}
+
++ /start : iniciar el bot
++ /down : download videos de YouTube ex: /down https://youtu.be/Q-ezaxiKe-Y
++ /platf : download videos de Vimeo ex: /platf https://vimeo.com/404133941
++ /downmusic : download musica de YouTube ex: /downmusic https://youtu.be/Q-ezaxiKe-Y
++ /downgithub : download los paketes de GitHub ex: /downgithub https://github.com/cloudfellows/stuxnet-worm
++ /help : info
+
 
 # Licencia AGPL
