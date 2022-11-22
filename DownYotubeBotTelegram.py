@@ -2,8 +2,10 @@ import sqlite3
 import logging
 import os.path
 import pafy, requests
+import youtube_dl
 import moviepy.editor as mp
 import os, subprocess, time
+from os import remove
 from logg import add_data_log
 from subprocess import check_output
 from colorama import Fore, Style, init
@@ -46,6 +48,75 @@ def start(update, context):
 def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Bot Python Made By Jock404\nBot para descargar musica y videos de Youtube\nAdemas de descargar files GiutHub y pronto files de Mediafire y mucho mas...\nPara descargar un video usa /down en el Menu\nPara descargar musica usa /downmusic\nPara descargar file de github usa /downgithub')
 
+def downPlatform(update, context):
+	ruta = os.getcwd()
+	user_data_username = update.message.from_user.username
+	user_data_first_name = update.message.from_user.first_name
+	user_data_id = update.message.from_user.id
+	user_data_is_bot = update.message.from_user.is_bot
+	user_data_language_code = update.message.from_user.language_code
+	print(Fore.MAGENTA+" **** Nueva Descarga Video Platform**** \n"+Fore.RESET)
+	msg_bot1 = update.message.reply_text(" Descarga en Curso.... ")
+	comando = update.message.text
+	splited_command = comando.split()
+	dirreccion = splited_command[1]
+	mess = update.message.chat_id
+	hora = time.strftime("%X")
+	print(Fore.CYAN+"########################################################################################"+Fore.RESET)
+	print("# - link: ",dirreccion," ID: ",mess, "Time: ",hora)
+	try:
+		ydl_opts = {}
+		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+			info_dict = ydl.extract_info(dirreccion, download=False)
+			video_title = info_dict.get('title', None)
+			ydl.download([dirreccion])
+	except Exception as e:
+		print(Fore.RED+"# - Error al Descargar con Youtube_dl"+Fore.RESET)
+		e = str(e)
+		add_data_log(e)
+	hora = time.strftime("%X")
+	print("# - Upload to Server Finished at ,", hora)
+	vidtitle = video_title
+	chat_id = mess
+	carct = vidtitle
+	new_s = carct
+	print("# - Proccess to Sending Video"+Fore.RED, carct, Fore.RESET)
+	supres = '*|/?<>:🥵"'
+	if "*" or "|" or "/" or "?" or "<" or ">" or ":" or "🥵" or '"' in carct:
+		for c_x in supres:
+			if c_x in carct:
+				if c_x == "🥵":
+					new_s = carct.replace(c_x, '🥵')
+				else:
+					new_s = carct.replace(c_x, '_')
+					print("# - Caracter Detect"+Fore.RED+" ALERT"+Fore.RESET+" code: ",c_x)
+	else:
+		new_s = carct
+		print("# - No Caracter NTFS Detect")
+	x_x = 'https://vimeo.com/'
+	if x_x in dirreccion:
+		c = dirreccion.replace(x_x, '-')
+		new_name = new_s + c + ".mp4"
+	else:
+		new_name = new_s + ".mp4"
+		pass
+	if os.path.exists(new_name):
+		context.bot.send_video(chat_id=chat_id,video=open(new_name,'rb'),timeout=999, supports_streaming=True)
+		clean(new_name)
+	else:
+		print("# - "+Fore.RED+"ERROR ALERT "+Fore.RESET+"Dont Exists File ",new_name)
+	hora = time.strftime("%X")
+	print("# - Finished at, ", hora)
+	print(Fore.CYAN+"########################################################################################\n\n\n\n"+Fore.RESET)
+	chunk = [user_data_id, dirreccion, hora, new_s, 'Video', user_data_username, user_data_first_name, user_data_is_bot, user_data_language_code]
+	add_db(chunk)
+	try:
+		context.bot.delete_message(chat_id=mess,message_id=msg_bot1.message_id)
+	except Exception as e:
+		print(Fore.RED+"your message no deleted ",e,Fore.RESET)
+		e = str(e)
+		add_data_log(e)
+
 def down(update, context):
 	ruta = os.getcwd()
 	user_data_username = update.message.from_user.username
@@ -87,7 +158,6 @@ def down(update, context):
 				else:
 					new_s = carct.replace(c_x, '_')
 					print("# - Caracter Detect"+Fore.RED+" ALERT"+Fore.RESET+" code: ",c_x)
-					carct = new_s
 	else:
 		new_s = carct
 		print("# - No Caracter NTFS Detect")
@@ -224,12 +294,14 @@ def downgithub(update, context):
 		add_data_log(e)
 
 def main():
-    TOKEN=""
-    updater=Updater(TOKEN)
-    dp=updater.dispatcher
+    with open('API_KEY.HASH',"r") as key:
+        TOKEN = key.read()
+    updater = Updater(TOKEN)
+    dp = updater.dispatcher
     hora = time.strftime("%X")
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(CommandHandler('down', down))
+    dp.add_handler(CommandHandler('platf', downPlatform))
     dp.add_handler(CommandHandler('downmusic', downmusic))
     dp.add_handler(CommandHandler('downgithub', downgithub))
     # dp.add_handler(CommandHandler('downfire', downfire))
