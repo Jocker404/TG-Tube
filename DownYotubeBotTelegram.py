@@ -1,3 +1,4 @@
+import gdown
 import sqlite3
 import logging
 import os.path
@@ -15,6 +16,11 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 init()
+
+###########################################################################
+##codigo de bypass error para seguir el flujo y agrupar funciones iguales##
+##########y funcion validadora de las url para todas las down##############
+###########################################################################
 
 def create_db():
 	ruta = os.getcwd() + "\\db\\"
@@ -43,10 +49,166 @@ def clean(file_del):
 	pass
 
 def start(update, context):
-    context.bot.send_message(update.message.chat_id, "Bienvenido to Download Video YouTube!")
+    context.bot.send_message(update.message.chat_id, "Bienvenido to Download BOT by Jock404!")
 
 def help_command(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Bot Python Made By Jock404\nBot para descargar musica y videos de Youtube\nAdemas de descargar files GiutHub y pronto files de Mediafire y mucho mas...\nPara descargar un video usa /down en el Menu\nPara descargar musica usa /downmusic\nPara descargar file de github usa /downgithub')
+    update.message.reply_text('Bot Python Made By Jock404\nBot para descargar musica y videos de Youtube\nAdemas de descargar files GiutHub y files de Mediafire y mucho mas...\nPara descargar un video usa /down en el Menu\nPara descargar musica usa /downmusic\nPara descargar file de github usa /downgithub\nPara descargar videos de Vimeo /platf\nPara descargar file de Google Drive /downdrive')
+
+def downdrive(update, context):
+	ruta = os.getcwd()
+	mess = update.message.chat_id
+	user_data_username = update.message.from_user.username
+	user_data_first_name = update.message.from_user.first_name
+	user_data_id = update.message.from_user.id
+	user_data_is_bot = update.message.from_user.is_bot
+	user_data_language_code = update.message.from_user.language_code
+	print(Fore.MAGENTA+" **** Nueva Descarga Google Drive**** \n"+Fore.RESET)
+	print(Fore.CYAN+"################################################################################################"+Fore.RESET)
+	carga = update.message.text
+	splited_command = carga.split()
+	url = splited_command[1]
+	hora = time.strftime("%X")
+	print("# - Start Time: "+Fore.RED,hora,Fore.RESET)
+	msg_bot = update.message.reply_text("Downloading Drive Wait....!")
+	output = ""
+	if "https://drive.google.com/open?id=" in url:
+		print("Nodo 1 ",url)
+		try:
+			try:
+				x = gdown.download(url, quiet=False)
+				output = x
+			except:
+				gdown.download(url, quiet=False)
+		except Exception as e:
+			print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+			e = str(e)
+			add_data_log(e)
+	elif "https://drive.google.com/file/d/" in url:
+		print("Nodo 2 ",url)
+		try:
+			try:
+				x = gdown.download(url, quiet=False, fuzzy=True)
+				output = x
+			except:
+				gdown.download(url, quiet=False, fuzzy=True)
+			
+		except Exception as e:
+			print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+			e = str(e)
+			add_data_log(e)
+	elif "https://drive.google.com/uc?id" in url:
+		print("Nodo 3 ",url)
+		try:
+			try:
+				x = gdown.download(url, quiet=False)
+				output = x
+			except:
+				gdown.download(url, quiet=False)
+			
+		except Exception as e:
+			print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+			e = str(e)
+			add_data_log(e)
+	elif "https://drive.google.com/drive/folders/" in url:
+		print("Nodo 4 ",url)
+		try:
+			try:
+				x = gdown.download_folder(url, quiet=True, use_cookies=False)
+				output = x
+			except:
+				gdown.download_folder(url, quiet=True, use_cookies=False)
+			
+		except Exception as e:
+			print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+			e = str(e)
+			add_data_log(e)
+	elif ((len(url) == 33) or (len(url) == 31)):
+		print("Nodo 5 ",url)
+		id = url
+		try:
+			try:
+				try:
+					print("dep 1")
+					x = gdown.download(id=id, quiet=False)
+					output = x
+					if output == None:
+						print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNoooooooooooooooooooooooooooooooooooooooooooooooooooo")
+					else:
+						print("else")
+					print("dep 2",x)
+				except:
+					print("dep 3")
+					gdown.download(id=id, quiet=False)
+			except Exception as e:
+				print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+				e = str(e)
+				add_data_log(e)
+		except:
+			try:
+				try:
+					print("dep 4")
+					x = gdown.download_folder(id=id, quiet=True, use_cookies=False)
+					output = x
+					print("dep 5",x)
+				except:
+					print("dep 6")
+					gdown.download_folder(id=id, quiet=True, use_cookies=False)
+			except Exception as e:
+				print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+				e = str(e)
+				add_data_log(e)
+	elif ((len(url) == 33) and ("--" in url)):
+		print("Nodo 6 ",url)
+		id = url
+		try:
+			try:
+				x = gdown.download(id=id, quiet=False)
+				output = x
+			except:
+				gdown.download(id=id, quiet=False)
+		except:
+			try:
+				try:
+					x = gdown.download_folder(id=id, quiet=True, use_cookies=False)
+					output = x
+				except:
+					gdown.download_folder(id=id, quiet=True, use_cookies=False)
+			except Exception as e:
+				print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
+				e = str(e)
+				add_data_log(e)
+	else:
+		print("# - "+Fore.RED+"ERROR ALERT "+Fore.RESET+"No es un Link Valido ")
+		try:
+			context.bot.delete_message(chat_id=mess,message_id=msg_bot.message_id)
+		except Exception as e:
+			print(Fore.RED+"your message no deleted ",e,Fore.RESET)
+			e = str(e)
+			add_data_log(e)
+		return
+
+	if output != None:
+		if os.path.exists(output):
+			context.bot.send_document(chat_id=user_data_id,document=open(output,'rb'),timeout=999, filename=output)
+			clean(output)
+		else:
+			print("# - "+Fore.RED+"ERROR ALERT "+Fore.RESET+"Dont Exists File is a Folder ")
+	else:
+		print("Is a Folder")
+
+	hora = time.strftime("%X")
+	print("# - Finished at, ", hora)
+	print(Fore.CYAN+"################################################################################################\n\n\n\n"+Fore.RESET)
+	chunk = [user_data_id, url, hora, output, 'Files', user_data_username, user_data_first_name, user_data_is_bot, user_data_language_code]
+	add_db(chunk)
+	try:
+		context.bot.delete_message(chat_id=mess,message_id=msg_bot.message_id)
+	except Exception as e:
+		print(Fore.RED+"your message no deleted ",e,Fore.RESET)
+		e = str(e)
+		add_data_log(e)
+	msg_bot = update.message.reply_text("Download Drive Finish....!")
+	pass
 
 def downPlatform(update, context):
 	ruta = os.getcwd()
@@ -108,7 +270,7 @@ def downPlatform(update, context):
 	hora = time.strftime("%X")
 	print("# - Finished at, ", hora)
 	print(Fore.CYAN+"########################################################################################\n\n\n\n"+Fore.RESET)
-	chunk = [user_data_id, dirreccion, hora, new_s, 'Video', user_data_username, user_data_first_name, user_data_is_bot, user_data_language_code]
+	chunk = [user_data_id, dirreccion, hora, new_name, 'Video', user_data_username, user_data_first_name, user_data_is_bot, user_data_language_code]
 	add_db(chunk)
 	try:
 		context.bot.delete_message(chat_id=mess,message_id=msg_bot1.message_id)
@@ -293,6 +455,55 @@ def downgithub(update, context):
 		e = str(e)
 		add_data_log(e)
 
+def downfire(update, context):
+	import urllib3
+	urllib3.disable_warnings()
+	ruta = os.getcwd()
+	user_data_username = update.message.from_user.username
+	user_data_first_name = update.message.from_user.first_name
+	user_data_id = update.message.from_user.id
+	user_data_is_bot = update.message.from_user.is_bot
+	user_data_language_code = update.message.from_user.language_code
+	print(Fore.MAGENTA+" **** Nueva Descarga Mediafire o files**** \n"+Fore.RESET)
+	msg_bot2 = update.message.reply_text(" Descargando Mediafire....")
+	comando = update.message.text
+	splited_command = comando.split()
+	url = splited_command[1]
+	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'}
+	mess = update.message.chat_id
+	hora = time.strftime("%X")
+	print(Fore.CYAN+"########################################################################################"+Fore.RESET)
+	print("# - link: ",url," ID: ",mess, "Time: ",hora)
+	try:
+		req = requests.get(url, headers=headers, verify=False)
+		filename = req.url[url.rfind('/')+1:]
+		print('FileName >>> ',filename)
+		with requests.get(url, headers=headers, verify=False) as req:
+			with open(filename, 'wb') as f:
+				for chunk in req.iter_content(chunk_size=8192):
+					# print(chunk)
+					if chunk:
+						f.write(chunk)
+			return filename
+		# envio be back
+		try:
+			context.bot.delete_message(chat_id=mess,message_id=msg_bot2.message_id)
+		except Exception as e:
+			print(Fore.RED+"your message no deleted ",e,Fore.RESET)
+			e = str(e)
+			add_data_log(e)
+		msg_bot = update.message.reply_text("Download Finish....!")
+		hora = time.strftime("%X")
+		print("# - link: "+Fore.RED,url,Fore.RESET+" ID: "+Fore.RED,mess,Fore.RESET+"Finished Time: "+Fore.RED,hora,Fore.RESET)
+		print(Fore.CYAN+"################################################################################################\n\n\n"+Fore.RESET)
+		chunk = [user_data_id, url, hora, filename, 'File Mediafire', user_data_username, user_data_first_name, user_data_is_bot, user_data_language_code]
+		add_db(chunk)
+	except Exception as e:
+		print(Fore.RED+"Not Working check log dat ",e,Fore.RESET)
+		e = str(e)
+		add_data_log(e)
+		return None
+
 def main():
     with open('API_KEY.HASH',"r") as key:
         TOKEN = key.read()
@@ -304,7 +515,8 @@ def main():
     dp.add_handler(CommandHandler('platf', downPlatform))
     dp.add_handler(CommandHandler('downmusic', downmusic))
     dp.add_handler(CommandHandler('downgithub', downgithub))
-    # dp.add_handler(CommandHandler('downfire', downfire))
+    dp.add_handler(CommandHandler('downdrive', downdrive))
+    dp.add_handler(CommandHandler('downfire', downfire))
     dp.add_handler(CommandHandler("help", help_command))
     updater.start_polling()
     updater.idle()

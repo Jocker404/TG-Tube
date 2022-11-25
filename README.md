@@ -1,5 +1,5 @@
 # TG-Tube
-Bot Telegram Server para descargar música y videos de YouTube y Vimeo además de files de github con registro de eventos de error y registro en base de datos de las entradas.
+Bot Telegram Server para descargar música y videos de YouTube y Vimeo (entre otras plataformas platzy, udemy, etc...) además de files de github, Mediafire, archivos en general y archivos googledrive, con registro de eventos de error y registro en base de datos de las entradas.
 Ademas con unas pequeñas modificaciones se puede ajustar para almacenar los archivos descargador en el servidor, cambiar la interfaz de usuario, a botones para una mejor experiencia de uso, modificar las descargas para seleccionar el tipo de resolucion o formato de audio y video.
 
 # Plataforma Windows
@@ -14,6 +14,7 @@ Ademas con unas pequeñas modificaciones se puede ajustar para almacenar los arc
 + pip install sqlite3
 + pip install python-telegram-bot
 + pip install colorama
++ pip install gdown
 
 # Uso de TG-Tube
 * 1º Crear un bot por ejemplo BotFather colocar en el API_KEY.HASH la API del bot.
@@ -27,6 +28,8 @@ Ademas con unas pequeñas modificaciones se puede ajustar para almacenar los arc
 + /down : download videos de YouTube ex: /down https://youtu.be/Q-ezaxiKe-Y
 + /platf : download videos de Vimeo ex: /platf https://vimeo.com/404133941
 + /downmusic : download musica de YouTube ex: /downmusic https://youtu.be/Q-ezaxiKe-Y
++ /downdrive : download archivos de google drive ex: /downdrive por link o id
++ /downfire : download archivos de mediafire or otra url ex: /downfire o link terminando en .extencion
 + /downgithub : download los paketes de GitHub ex: /downgithub https://github.com/cloudfellows/stuxnet-worm
 + /help : info
 
