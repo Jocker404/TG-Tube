@@ -72,7 +72,7 @@ def downdrive(update, context):
 	msg_bot = update.message.reply_text("Downloading Drive Wait....!")
 	output = ""
 	if "https://drive.google.com/open?id=" in url:
-		print("Nodo 1 ",url)
+		# print("Nodo 1 ",url)
 		try:
 			try:
 				x = gdown.download(url, quiet=False)
@@ -84,7 +84,7 @@ def downdrive(update, context):
 			e = str(e)
 			add_data_log(e)
 	elif "https://drive.google.com/file/d/" in url:
-		print("Nodo 2 ",url)
+		# print("Nodo 2 ",url)
 		try:
 			try:
 				x = gdown.download(url, quiet=False, fuzzy=True)
@@ -97,7 +97,7 @@ def downdrive(update, context):
 			e = str(e)
 			add_data_log(e)
 	elif "https://drive.google.com/uc?id" in url:
-		print("Nodo 3 ",url)
+		# print("Nodo 3 ",url)
 		try:
 			try:
 				x = gdown.download(url, quiet=False)
@@ -110,7 +110,7 @@ def downdrive(update, context):
 			e = str(e)
 			add_data_log(e)
 	elif "https://drive.google.com/drive/folders/" in url:
-		print("Nodo 4 ",url)
+		# print("Nodo 4 ",url)
 		try:
 			try:
 				x = gdown.download_folder(url, quiet=True, use_cookies=False)
@@ -123,21 +123,14 @@ def downdrive(update, context):
 			e = str(e)
 			add_data_log(e)
 	elif ((len(url) == 33) or (len(url) == 31)):
-		print("Nodo 5 ",url)
+		# print("Nodo 5 ",url)
 		id = url
 		try:
 			try:
 				try:
-					print("dep 1")
 					x = gdown.download(id=id, quiet=False)
 					output = x
-					if output == None:
-						print("NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNoooooooooooooooooooooooooooooooooooooooooooooooooooo")
-					else:
-						print("else")
-					print("dep 2",x)
 				except:
-					print("dep 3")
 					gdown.download(id=id, quiet=False)
 			except Exception as e:
 				print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
@@ -146,19 +139,16 @@ def downdrive(update, context):
 		except:
 			try:
 				try:
-					print("dep 4")
 					x = gdown.download_folder(id=id, quiet=True, use_cookies=False)
 					output = x
-					print("dep 5",x)
 				except:
-					print("dep 6")
 					gdown.download_folder(id=id, quiet=True, use_cookies=False)
 			except Exception as e:
 				print(Fore.RED+"# - Error al Descargar con Gdown"+Fore.RESET)
 				e = str(e)
 				add_data_log(e)
 	elif ((len(url) == 33) and ("--" in url)):
-		print("Nodo 6 ",url)
+		# print("Nodo 6 ",url)
 		id = url
 		try:
 			try:
@@ -481,11 +471,9 @@ def downfire(update, context):
 		with requests.get(url, headers=headers, verify=False) as req:
 			with open(filename, 'wb') as f:
 				for chunk in req.iter_content(chunk_size=8192):
-					# print(chunk)
 					if chunk:
 						f.write(chunk)
 			return filename
-		# envio be back
 		try:
 			context.bot.delete_message(chat_id=mess,message_id=msg_bot2.message_id)
 		except Exception as e:
